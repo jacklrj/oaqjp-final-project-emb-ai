@@ -1,11 +1,5 @@
-"""
-Emotion Detection module.
-
-Provides a function to call Watson NLP API for emotion classification.
-"""
-
-import json
 import requests  # Import the requests library to handle HTTP requests
+import json
 
 def emotion_detector(text_to_analyse: str) -> dict:
     """
@@ -15,8 +9,7 @@ def emotion_detector(text_to_analyse: str) -> dict:
         text_to_analyse (str): The text to analyze.
 
     Returns:
-        dict: A dictionary with keys 'anger', 'disgust', 'fear', 
-        'joy', 'sadness', and 'dominant_emotion'
+        dict: A dictionary with keys 'label' and 'score'.
     """
     url = (
         "https://sn-watson-emotion.labs.skills.network/"
@@ -27,16 +20,6 @@ def emotion_detector(text_to_analyse: str) -> dict:
 
     try:
         response = requests.post(url, json=payload, headers=headers, timeout=10)
-        if response.status_code == 400:
-            return {
-                "anger": None,
-                "disgust": None,
-                "fear": None,
-                "joy": None,
-                "sadness": None,
-                "dominant_emotion": None
-            }
-
         response.raise_for_status()
 
         data = json.loads(response.text)
@@ -56,11 +39,4 @@ def emotion_detector(text_to_analyse: str) -> dict:
             'dominant_emotion': dominant_emotion
         }
     except requests.exceptions.RequestException:
-        return {
-            "anger": None,
-            "disgust": None,
-            "fear": None,
-            "joy": None,
-            "sadness": None,
-            "dominant_emotion": None
-        }
+        return None
