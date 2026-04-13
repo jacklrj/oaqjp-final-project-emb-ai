@@ -4,7 +4,6 @@
 '''
 from flask import Flask, render_template, request
 from EmotionDetection.emotion_detection import emotion_detector
-#Initiate the flask app : TODO
 app = Flask("Emotion Detector")
 
 @app.route("/emotionDetector")
@@ -16,9 +15,6 @@ def sent_detector():
     '''
     # Retrieve the text to analyze from the request arguments
     text_to_analyze = request.args.get('textToAnalyze')
-
-    #if text_to_analyze == "":
-    #    return "Blank input! Try again."
 
     # Pass the text to the emotion_detector function and store the response
     response = emotion_detector(text_to_analyze)
